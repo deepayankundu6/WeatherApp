@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [weatherData, setWeatherData] = useState(null);
-  const [weatherIcon, setWeatherIcon] = useState(null)
+  const [weatherIcon, setWeatherIcon] = useState(null);
+  const [City, setCity] = useState(null);
   const [cityName, setcityName] = useState(" ");
   useEffect(() => {
     // async function fetchData() {
@@ -24,6 +25,7 @@ function App() {
     setWeatherData(ApiResponse);
     const icon = await getIcon(ApiResponse.weather[0].icon);
     setWeatherIcon(icon);
+    setCity(cityName);
   }
 
   return (
@@ -45,10 +47,13 @@ function App() {
             <div className="card-image image">
               <img src={weatherIcon} />
             </div>
-            <span className="card-title title">{cityName}</span>
+            <span className="card-title title">{weatherData.name},{weatherData.sys.country}</span>
             <div className="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.</p>
+              <p>Temperature: {weatherData.main.temp}</p>
+              <p>Feels Like: {weatherData.main.feels_like}</p>
+              <p>Pressure: {weatherData.main.pressure}</p>
+              <p>Humidity: {weatherData.main.humidity}</p>
+              <p>Visibility: {weatherData.visibility}</p>
             </div>
             <div className="card-action">
             </div>
