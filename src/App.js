@@ -2,6 +2,7 @@
 import './App.css';
 import { getWeatherData, getIcon } from "./weatherCall";
 import { useEffect, useState } from 'react';
+import * as moment from "moment";
 
 function App() {
   const [weatherData, setWeatherData] = useState(null);
@@ -53,7 +54,11 @@ function App() {
       }
     );
   }
-
+  const conertTime = (date) => {
+    var stillUtc = moment.utc(date).toDate();
+    var local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
+    return local;
+  }
   return (
     <div>
       <div className="row">
@@ -81,15 +86,17 @@ function App() {
             </div>
             <span className="card-title title">{weatherData.name},{weatherData.sys.country} ({toTitleCase(weatherData.weather[0].description)})</span>
             <div className="card-content">
-              <p>Temperature: {weatherData.main.temp} {Unit === "metric" ? " C " : " F"}</p>
-              <p>Feels Like: {weatherData.main.feels_like}{Unit === "metric" ? " C " : " F"}</p>
-              <p>Pressure: {weatherData.main.pressure} hPa</p>
-              <p>Humidity: {weatherData.main.humidity} %</p>
-              <p>Visibility: {weatherData.visibility}</p>
-              <p>Wind Speed: {weatherData.wind.speed}{Unit === " metric" ? "m/s " : " miles/hr"}</p>
-              <p>Cloudiness: {weatherData.clouds.all} %</p>
+              <p><i className="fa-solid fa-temperature-full icon"></i> Temperature: {weatherData.main.temp} {Unit === "metric" ? " C " : " F"}</p>
+              <p><i className="fa-solid fa-temperature-half"></i> Feels Like: {weatherData.main.feels_like}{Unit === "metric" ? " C " : " F"}</p>
+              <p><i className="fa-solid fa-tire-pressure-warning"></i> Pressure: {weatherData.main.pressure} hPa</p>
+              <p><i className="fa-solid fa-droplet-percent"></i> Humidity: {weatherData.main.humidity} %</p>
+              <p><i className="fa-solid fa-eye-slash"></i> Visibility: {weatherData.visibility}</p>
+              <p><i className="fa-solid fa-wind"></i> Wind Speed: {weatherData.wind.speed}{Unit === "metric" ? " m/s " : " miles/hr"}</p>
+              <p><i className="fa-solid fa-cloud"></i> Cloudiness: {weatherData.clouds.all} %</p>
             </div>
             <div className="card-action">
+              {/* <p><i class="fa-solid fa-sunrise"></i> Sunrise: {conertTime(weatherData.sys.sunrise)}</p>
+              <p><i class="fa-solid fa-sunset"></i> Sunset: {conertTime(weatherData.sys.sunset)} </p> */}
             </div>
           </div>
         </div>
